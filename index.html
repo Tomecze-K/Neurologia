@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUPER-DYDAKTYCZNA PLATFORMA NEUROLOGII: EXAM MASTER 2026</title>
+    <title>SUPER-DYDAKTYCZNA PLATFORMA NEUROLOGII: WERSJA PRO</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -13,6 +13,7 @@
             --bg-main: #0b0f19;
             --bg-sidebar: #111827;
             --bg-card: #1f2937;
+            --bg-schema: #0f172a;
             --accent-primary: #3b82f6;
             --accent-success: #10b981;
             --accent-warning: #f59e0b;
@@ -27,8 +28,8 @@
         body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
         /* Sidebar Styling */
-        .sidebar { width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 2px solid var(--accent-primary); }
+        .sidebar { width: 340px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--accent-primary); }
         .sidebar-header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; color: #ffffff; }
         .sidebar-header p { font-size: 12px; color: var(--accent-primary); margin-top: 4px; font-weight: 600; }
         .nav-group { margin-bottom: 24px; }
@@ -48,9 +49,15 @@
         .category-header { font-size: 22px; color: var(--accent-primary); margin: 40px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; gap: 12px; font-weight: 700; }
         .category-header i { font-size: 24px; }
 
-        /* Disease Profile & Knowledge Cards */
+        /* Disease Profile Cards */
         .clinical-box { background-color: var(--bg-card); border-left: 5px solid var(--accent-primary); padding: 24px; border-radius: 8px; margin-bottom: 32px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
         .clinical-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #ffffff; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        
+        /* Schemas & Algorithms */
+        .schema-box { background-color: var(--bg-schema); border: 1px dashed var(--accent-primary); padding: 16px; border-radius: 6px; margin: 16px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.5; color: #38bdf8; overflow-x: auto; white-space: pre; }
+        .schema-title { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: bold; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block; }
+
+        /* Grid specific to clinical blocks */
         .disease-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 12px; }
         .grid-block { background-color: rgba(17, 24, 39, 0.5); padding: 16px; border-radius: 6px; border: 1px solid rgba(55, 65, 81, 0.5); }
         .grid-block-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
@@ -62,8 +69,9 @@
 
         .grid-block p, .grid-block li { font-size: 13.5px; line-height: 1.6; color: var(--text-main); }
         .grid-block ul { margin-left: 18px; margin-top: 4px; }
+        .highlight-drug { background-color: rgba(52, 211, 153, 0.15); color: #6ee7b7; padding: 2px 6px; border-radius: 4px; font-weight: 600; border: 1px solid rgba(52, 211, 153, 0.3); }
 
-        /* Quiz & Fiszki Styles */
+        /* Quiz & Fiszki */
         .score-banner { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); border: 1px solid var(--accent-primary); padding: 20px; border-radius: 10px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; }
         .score-stats { display: flex; gap: 32px; }
         .stat-item { display: flex; flex-direction: column; }
@@ -97,63 +105,85 @@
 
     <div class="sidebar">
         <div class="sidebar-header">
-            <h1>NEUROLOGIA 2026</h1>
-            <p>Platforma Katedralna ŚUM</p>
+            <h1>NEUROLOGIA PRO 2026</h1>
+            <p>Precyzyjna Baza Farmako-Kliniczna</p>
         </div>
 
         <div class="nav-group">
-            <div class="nav-group-title">Baza Wiedzy</div>
-            <button class="nav-btn active" onclick="switchPage('notes-page')"><i class="fa-solid fa-book-medical"></i> Kompendium Chorób</button>
-            <button class="nav-btn" onclick="scrollToCategory('naczyniowe')"><i class="fa-solid fa-droplet" style="font-size: 12px;"></i> Udary i Naczyniowe</button>
-            <button class="nav-btn" onclick="scrollToCategory('demielinizacyjne')"><i class="fa-solid fa-ribbon" style="font-size: 12px;"></i> Demielinizacyjne</button>
-            <button class="nav-btn" onclick="scrollToCategory('otepienia')"><i class="fa-solid fa-brain" style="font-size: 12px;"></i> Otępienia i Neurozwyrod.</button>
-            <button class="nav-btn" onclick="scrollToCategory('padaczka')"><i class="fa-solid fa-bolt" style="font-size: 12px;"></i> Padaczka i Napady</button>
-            <button class="nav-btn" onclick="scrollToCategory('miesnie')"><i class="fa-solid fa-dumbbell" style="font-size: 12px;"></i> Złącza i Mięśnie</button>
+            <div class="nav-group-title">Kompendium Wiedzy</div>
+            <button class="nav-btn active" onclick="switchPage('notes-page')"><i class="fa-solid fa-book-medical"></i> Strona Główna Notatek</button>
+            <button class="nav-btn" onclick="scrollToCategory('zespoly-pniowe')"><i class="fa-solid fa-sitemap" style="font-size: 12px;"></i> 0. Neuroanatomia i Pnie</button>
+            <button class="nav-btn" onclick="scrollToCategory('naczyniowe')"><i class="fa-solid fa-droplet" style="font-size: 12px;"></i> 1. Udary i Naczyniowe</button>
+            <button class="nav-btn" onclick="scrollToCategory('demielinizacyjne')"><i class="fa-solid fa-ribbon" style="font-size: 12px;"></i> 2. Demielinizacyjne</button>
+            <button class="nav-btn" onclick="scrollToCategory('otepienia')"><i class="fa-solid fa-brain" style="font-size: 12px;"></i> 3. Otępienia i FTD/DLB</button>
+            <button class="nav-btn" onclick="scrollToCategory('padaczka')"><i class="fa-solid fa-bolt" style="font-size: 12px;"></i> 4. Padaczka i Algorytmy</button>
+            <button class="nav-btn" onclick="scrollToCategory('miesnie')"><i class="fa-solid fa-dumbbell" style="font-size: 12px;"></i> 5. Złącza (MG vs LEMS)</button>
         </div>
 
         <div class="nav-group">
-            <div class="nav-group-title">Trening i Testy</div>
-            <button class="nav-btn" onclick="switchPage('quiz-page')"><i class="fa-solid fa-graduation-cap"></i> Moduł Testowy (% OK)</button>
+            <div class="nav-group-title">Ewaluacja (Egzamin)</div>
+            <button class="nav-btn" onclick="switchPage('quiz-page')"><i class="fa-solid fa-graduation-cap"></i> Moduł Testowy (Baza)</button>
             <button class="nav-btn" onclick="switchPage('flashcards-page')"><i class="fa-solid fa-clone"></i> Interaktywne Fiszki</button>
-        </div>
-        
-        <div style="margin-top: auto; padding: 12px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border: 1px solid var(--accent-success); font-size: 12px; text-align: center;">
-            <span style="color: var(--accent-success); font-weight: bold;"><i class="fa-solid fa-circle-check"></i> Próg UCZ SIĘ!!!</span>
         </div>
     </div>
 
     <div class="main-content">
         <div class="top-bar">
-            <h2 id="page-title">Zaawansowany Rejestr Jednostek Chorobowych</h2>
-            <div style="font-size: 13px; color: var(--text-muted);">Ustrukturyzowane notatki</div>
+            <h2 id="page-title">Zaawansowany Rejestr Farmako-Kliniczny</h2>
+            <div style="font-size: 13px; color: var(--text-muted);">Zintegrowane algorytmy lecznicze i dawki</div>
         </div>
 
         <div class="content-container">
 
             <div id="notes-page" class="page-section active">
                 
+                <!-- DZIAŁ 0: NEUROANATOMIA (Naprawiony "brak nazwy") -->
+                <h2 id="zespoly-pniowe" class="category-header"><i class="fa-solid fa-sitemap" style="color: #64748b;"></i> 0. Topografia i Zespoły Pniowe</h2>
+                <div class="clinical-box" style="border-left-color: #64748b;">
+                    <h3>Różnicowanie uszkodzenia Nerwu VII (Twarzowego)</h3>
+                    <p style="margin-bottom: 12px; font-size: 14px;">Błąd na egzaminie w tym zakresie jest niedopuszczalny. Należy precyzyjnie rozróżnić typ ośrodkowy od obwodowego.</p>
+                    
+                    <div class="schema-box"><span class="schema-title">SCHEMAT USZKODZEŃ NERWU TWARZOWEGO</span>
+[ OŚRODKOWE (NADJĄDROWE) ] np. Udar niedokrwienny MCA
+- Uszkodzenie kory lub dróg korowo-jądrowych pow. pnia mózgu
+- Objawy kontralateralne (PRZECIWSTRONNE)
+- CZOŁO ZACHOWANE (unerwienie obustronne kory dla jądra górnego)
+- Opadnięty kącik ust, wygładzona bruzda nosowo-wargowa
+
+[ OBWODOWE (JĄDROWE/PIEŃ) ] np. Porażenie Bella (zapalenie HSV)
+- Uszkodzenie jądra w moście lub samego nerwu VII
+- Objawy ipsilateralne (TOŻSTRONNE)
+- PORAŻONA CAŁA POŁOWA TWARZY (brak marszczenia czoła)
+- Niemożność domknięcia oka -> Objaw Bella (gałka rotuje do góry)
+- Zaburzenia smaku na 2/3 przednich języka (struna bębenkowa)
+                    </div>
+                </div>
+
                 <!-- DZIAŁ 1: NACZYNIOWE -->
-                <h2 id="naczyniowe" class="category-header"><i class="fa-solid fa-heart-pulse"></i> 1. Choroby Naczyniowe (Udary)</h2>
+                <h2 id="naczyniowe" class="category-header"><i class="fa-solid fa-heart-pulse" style="color: #ef4444;"></i> 1. Choroby Naczyniowe (Udary Mózgu)</h2>
                 
                 <div class="clinical-box" style="border-left-color: #ef4444;">
-                    <h3>Udar Niedokrwienny Mózgu</h3>
+                    <h3>Udar Niedokrwienny - Algorytm i Farmakoterapia</h3>
                     <div class="disease-grid">
                         <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Zależne od unaczynienia: <b>MCA</b> (t. środkowa) – niedowład połowiczy, afazja, zwrot gałek w stronę uszkodzenia. <b>PCA</b> (t. tylna) – hemianopsja. <b>PICA</b> – Zespół Wallenberga (boczny opuszki: chrypka, dysfagia, naprzemienne zaburzenia czucia).</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Zatorowy (najczęściej migotanie przedsionków - AF), zakrzepowy (blaszka miażdżycowa), hemodynamiczny. Udary lakunarne wynikają z <b>lipohialinozy</b> małych tętnic przeszywających (zwykle wtórne do nadciśnienia).</p>
-                        </div>
-                        <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p>Pilne TK bez kontrastu do wykluczenia krwotoku. <b>MR (złoty standard wczesny):</b> Hiperintensywność w sekwencji <b>DWI</b> (restrykcja dyfuzji) i hipointensywność w mapach <b>ADC</b>.</p>
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Diagnostyka Czasowa</div>
+                            <p>Okno dla trombolizy: <b>do 4.5h</b> od początku objawów. Okno dla trombektomii mechanicznej: typowo <b>do 6h</b> (rozszerzone do 24h w wybranych przypadkach mismatchu w perfuzji CT/MR).</p>
                         </div>
                         <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Okno terapeutyczne: do 4,5h. Tromboliza: <b>Alteplaza</b> lub <b>Tenekteplaza (TNK - 0,25 mg/kg m.c. w bolusie)</b>. Trombektomia mechaniczna do 6h (w oknie rozszerzonym czasem do 24h). W prewencji AF: NOAC/VKA.</p>
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Dokładne Dawkowanie Lipo-Trombolityczne</div>
+                            <p>1. <span class="highlight-drug">Alteplaza (rt-PA)</span>: <b>0.9 mg/kg m.c.</b> (max 90 mg). 10% dawki w bolusie w ciągu 1 min, reszta 90% we wlewie przez 60 min.<br>
+                            2. <span class="highlight-drug">Tenekteplaza (TNK)</span>: <b>0.25 mg/kg m.c.</b> (max 25 mg) w szybkim, pojedynczym bolusie i.v.<br>
+                            Kontrola RR przed podaniem: musi być <b>< 185/110 mmHg</b> (leki: <span class="highlight-drug">Urapidyl</span>).
+                            </p>
                         </div>
+                    </div>
+                    
+                    <div class="schema-box"><span class="schema-title">KLASYFIKACJA TOAST (Przyczyny Udaru Niedokrwiennego)</span>
+1. Choroba dużych naczyń (Miażdżyca tętnic szyjnych / wewnątrzczaszkowych)
+2. Zatorowość sercowopochodna (Najczęściej: Migotanie Przedsionków - AF, wada zastawek)
+3. Choroba małych naczyń (Udary lakunarne - wynikają z LIPOHIALINOZY drobnych tętnic u pacjentów z NT)
+4. Inne udokumentowane przyczyny (Rozwarstwienie tętnic, prozakrzepowe, ch. tkanki łącznej np. CADASIL)
+5. Przyczyna nieustalona (Kryptogenny / ESUS)
                     </div>
                 </div>
 
@@ -161,121 +191,99 @@
                 <h2 id="demielinizacyjne" class="category-header"><i class="fa-solid fa-ribbon" style="color: #8b5cf6;"></i> 2. Choroby Demielinizacyjne</h2>
 
                 <div class="clinical-box" style="border-left-color: #8b5cf6;">
-                    <h3>Stwardnienie Rozsiane (SM)</h3>
+                    <h3>Stwardnienie Rozsiane (SM) vs NMOSD</h3>
                     <div class="disease-grid">
-                        <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Rzuty i remisje. Pozagałkowe zapalenie nerwu wzrokowego (ból przy ruchu gałką), niedowłady, drżenie zamiarowe, neuralgia nerwu V u młodych. Zjawisko Uhthoffa (pogorszenie przy wzroście temperatury ciała).</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Autoimmunologiczny proces niszczący osłonki mielinowe w OUN z oszczędzeniem aksonów we wczesnej fazie. Korelacja z genami HLA na chromosomie 6p21 oraz niedoborem Wit. D3.</p>
-                        </div>
                         <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p>Kryteria McDonalda (rozsianie w czasie i przestrzeni). MR: Plaki demielinizacyjne prostopadłe do komór (<b>palce Dawsona</b>). PMR: <b>Prążki oligoklonalne (OCB)</b> u >90%.</p>
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnostyka Różnicowa (PMR i MR)</div>
+                            <p><b>SM:</b> Kryteria McDonalda 2017. Wymagane rozsianie w Czasie (DIT) i Przestrzeni (DIS). Palce Dawsona w MR. PMR: <b>Prążki OCB obecne u >90%</b>.<br>
+                            <b>NMOSD:</b> Ostre zapalenie rdzenia (LETM >3 segmenty). PMR: <b>Brak prążków OCB</b>. Krew: <span class="highlight-drug">Przeciwciała anty-AQP4</span> (akwaporynopatia).</p>
                         </div>
                         <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Rzut: <b>Metylprednizolon</b> (Solu-Medrol) 0,5–1,0 g/d i.v. przez 3-5 dni. Leki modyfikujące przebieg (DMT): Interferony, Octan glatirameru, Natalizumab, Ocrelizumab.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="clinical-box" style="border-left-color: #8b5cf6;">
-                    <h3>NMOSD (Choroba Devica / Akwaporynopatia)</h3>
-                    <div class="disease-grid">
-                        <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Ciężkie, obustronne zapalenie nerwów wzrokowych oraz poprzeczne zapalenie rdzenia (często rozległe, tzw. LETM - obejmujące >3 segmenty). Narastanie niesprawności jest szybsze i gorsze niż w SM.</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Autoimmunologiczne zapalenie niszczące astrocyty poprzez atak na kanały wodne (akwaporynę 4) za pośrednictwem dopełniacza. Obecna wyraźna nekroza tkanek.</p>
-                        </div>
-                        <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p>Obecność w surowicy przeciwciał <b>anty-AQP4</b>. <i>Reguła egzaminacyjna: prążki OCB w płynie mózgowo-rdzeniowym są zazwyczaj NIEOBECNE (odróżnienie od SM).</i></p>
-                        </div>
-                        <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Ostry rzut: GKS (duże dawki) + szybka plazmafereza. Profilaktyka: Rytuksymab, Azatiopryna. <b>Ważne: Leki stosowane w SM (np. interferony, fingolimod) mogą ZAOSTRZAĆ NMOSD!</b></p>
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Farmakologia Ostrego Rzutu i DMT</div>
+                            <p><b>Leczenie rzutu (Obie choroby):</b> <span class="highlight-drug">Metylprednizolon</span> i.v. w dawce <b>0.5 - 1.0 g/dobę przez 3-5 dni</b>. W braku reakcji -> Plazmafereza.<br>
+                            <b>Leczenie przewlekłe (DMT) w SM:</b> <span class="highlight-drug">Octan glatirameru</span>, <span class="highlight-drug">Natalizumab</span>, <span class="highlight-drug">Ocrelizumab</span>.<br>
+                            <b>Uwaga kliniczna:</b> Leki na SM (szczególnie interferony i fingolimod) POGARSZAJĄ stan pacjentów z NMOSD!</p>
                         </div>
                     </div>
                 </div>
 
                 <!-- DZIAŁ 3: OTĘPIENIA -->
-                <h2 id="otepienia" class="category-header"><i class="fa-solid fa-brain" style="color: #fbbf24;"></i> 3. Otępienia i Choroby Neurozwyrodnieniowe</h2>
+                <h2 id="otepienia" class="category-header"><i class="fa-solid fa-brain" style="color: #fbbf24;"></i> 3. Otępienia i Neurozwyrodnienia</h2>
 
                 <div class="clinical-box" style="border-left-color: #fbbf24;">
-                    <h3>Otępienie z Ciałami Lewy'ego (DLB)</h3>
-                    <div class="disease-grid">
-                        <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Fluktuacje funkcji poznawczych, <b>bardzo żywe omamy wzrokowe</b> (widzenie zwierząt, ludzi), zaburzenia snu REM oraz zespół parkinsonowski (sztywność, bradykinezja).</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Synukleinopatia - patologiczne odkładanie alfa-synukleiny tworzącej śródkomórkowe ciała Lewy'ego rozsiane w korze mózgowej.</p>
-                        </div>
-                        <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p><b>Reguła 1 Roku (Klucz egzaminacyjny):</b> Otępienie rozwija się przed objawami ruchowymi parkinsonizmu lub maksymalnie do 12 miesięcy po ich wystąpieniu (w PDD otępienie występuje wiele lat po Parkinsonie).</p>
-                        </div>
-                        <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Dobre reakcje na inhibitory AChE (Rywastygmina) na omamy. <b>Przeciwwskazane klasyczne neuroleptyki</b> (wywołują skrajną i zagrażającą życiu nadwrażliwość oraz złośliwy zespół neuroleptyczny).</p>
-                        </div>
+                    <h3>Szczegółowa Diagnostyka Typów Otępień</h3>
+                    <div class="schema-box"><span class="schema-title">ALGORYTM RÓŻNICOWY OTĘPIEŃ (Baza ŚUM)</span>
++----------------------+----------------------------------------------------------+-----------------------+
+| Choroba              | Kluczowy Objaw Wczesny / Marker MR                       | Leki                  |
++----------------------+----------------------------------------------------------+-----------------------+
+| Alzheimer (AD)       | Izolowane zab. pamięci epizodycznej. MR: Zanik hipokampa | Donepezil, Memantyna  |
+| Ciała Lewy'ego (DLB) | Żywe omamy wzrokowe. Fluktuacje. Parkinsonizm ("Reguła 1 | Rywastygmina. UNIKAĆ  |
+|                      | roku" - otępienie do roku od parkinsonizmu).             | klasycznych leków psy.|
+| Czołowo-Skroniowe(FTD| Wczesne zab. behawioralne (odhamowanie), apatia. Pamięć  | SSRI. Inhibitory AChE |
+|                      | na początku ok. MR: Zanik asymetryczny czołowy.          | są NIESKUTECZNE!      |
+| Parkinson (PDD)      | Otępienie rozwija się WIELE LAT po utrwalonych objawach  | Rywastygmina          |
+|                      | ruchowych (drżenie, sztywność).                          |                       |
++----------------------+----------------------------------------------------------+-----------------------+
+                    </div>
+                    <div style="padding: 12px; background: rgba(245,158,11,0.1); border-left: 3px solid var(--accent-warning); margin-top: 16px;">
+                        <b>Dawkowanie leków prokognitywnych:</b><br>
+                        <span class="highlight-drug">Donepezil</span>: początkowo 5 mg/d, po miesiącu 10 mg/d (tabletki na noc).<br>
+                        <span class="highlight-drug">Rywastygmina</span>: systemy transdermalne (plastry) np. 4.6 mg/24h -> 9.5 mg/24h (mniej objawów żołądkowo-jelitowych niż p.o.).<br>
+                        <span class="highlight-drug">Memantyna</span> (antagonista NMDA): w otępieniu umiarkowanym/ciężkim, titracja o 5mg co tydzień do 20 mg/d.
                     </div>
                 </div>
 
-                <!-- DZIAŁ 4: PADACZKI -->
-                <h2 id="padaczka" class="category-header"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> 4. Padaczka i Stany Napadowe</h2>
+                <!-- DZIAŁ 4: PADACZKA -->
+                <h2 id="padaczka" class="category-header"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> 4. Padaczka i Stan Padaczkowy</h2>
 
                 <div class="clinical-box" style="border-left-color: #f59e0b;">
-                    <h3>Padaczka Alkohologenna (Z. Abstynencyjny)</h3>
-                    <div class="disease-grid">
-                        <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Napady występujące klasycznie 6–48 godzin po zaprzestaniu ciągów alkoholowych. Są to <b>napady pierwotnie uogólnione toniczno-kloniczne</b> (błędem jest nazywanie ich ogniskowymi).</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Spadek hamowania GABA-ergicznego po odstawieniu alkoholu oraz nadmierna aktywność układu pobudzającego glutaminianergicznego (receptory NMDA).</p>
-                        </div>
-                        <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p>Wywiad z pacjentem. U 30% nieleczonych chorych rozwija się <i>Delirium Tremens</i> (majaczenie drżenne). U 3% może dojść do stanu padaczkowego.</p>
-                        </div>
-                        <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Leczenie z wyboru: <b>Benzodiazepiny (Diazepam)</b>. Bezwzględnie dożylna podaż Tiaminy (Wit. B1) przed podaniem glukozy, aby zapobiec encefalopatii Wernickego.</p>
-                        </div>
+                    <h3>Stan Padaczkowy (Status Epilepticus) i Napady Alkoholowe</h3>
+                    <div class="schema-box"><span class="schema-title">ALGORYTM LECZENIA STANU PADACZKOWEGO (Toniczno-Klonicznego)</span>
+Definicja: Napad > 5 min. lub kolejne napady bez odzyskania przytomności.
+
+FAZA 1 (Wczesna: 0-5 min): 
+    - Zabezpieczenie dróg oddechowych, tlen, dojście i.v.
+
+FAZA 2 (Początkowa: 5-20 min) -> Leki I rzutu (Benzodiazepiny):
+    - <span class="highlight-drug">Diazepam</span>: 10-20 mg i.v. (powoli)
+    - LUB <span class="highlight-drug">Klonazepam</span>: 1-2 mg i.v. 
+    - LUB <span class="highlight-drug">Midazolam</span>: 10 mg i.m. (jeśli brak wkłucia)
+
+FAZA 3 (Rozwinięta: 20-40 min) -> Leki II rzutu (Jeśli napad trwa):
+    - <span class="highlight-drug">Kwas walproinowy</span>: 40 mg/kg i.v. 
+    - LUB <span class="highlight-drug">Lewetiracetam</span>: 60 mg/kg i.v. (max 4500 mg)
+    - LUB Fenytoina/Fosfenytoina i.v.
+
+FAZA 4 (Oporna: > 40 min):
+    - Intubacja, znieczulenie ogólne: <span class="highlight-drug">Propofol</span> lub <span class="highlight-drug">Tiopental</span>.
                     </div>
+                    <p style="margin-top: 12px; font-size: 14px;"><b>Napady z odstawienia alkoholu:</b> Występują 6-48h po spadku stężenia alkoholu. Są to <b>zawsze napady pierwotnie uogólnione</b> toniczno-kloniczne. Leczeniem z wyboru jest <span class="highlight-drug">Diazepam</span>. Należy bezwzględnie podać witaminę B1 (<span class="highlight-drug">Tiaminę</span>) i.v. PRZED podażą roztworów glukozy.</p>
                 </div>
 
-                <!-- DZIAŁ 5: MIĘŚNIE -->
-                <h2 id="miesnie" class="category-header"><i class="fa-solid fa-dumbbell" style="color: #10b981;"></i> 5. Zespoły Złącza Nerwowo-Mięśniowego</h2>
+                <!-- DZIAŁ 5: ZŁĄCZA (MIASTENIA VS LEMS) -->
+                <h2 id="miesnie" class="category-header"><i class="fa-solid fa-dumbbell" style="color: #10b981;"></i> 5. Patologia Złącza Nerwowo-Mięśniowego</h2>
 
                 <div class="clinical-box" style="border-left-color: #10b981;">
-                    <h3>Miastenia Gravis (MG)</h3>
-                    <div class="disease-grid">
-                        <div class="grid-block block-objawy">
-                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
-                            <p>Nużliwość mięśni, opadanie powiek (ptoza), dwojenie widzenia. Objawy <b>nasilają się po wysiłku i wieczorem</b>. Odruchy ścięgniste zachowane.</p>
-                        </div>
-                        <div class="grid-block block-mechanizm">
-                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
-                            <p>Przeciwciała niszczące receptory acetylocholiny (AChR) na <b>błonie postsynaptycznej</b>. Silny związek z grasiczakiem (hyperplazja grasicy).</p>
-                        </div>
-                        <div class="grid-block block-diagnoza">
-                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
-                            <p>EMG (próba miasteniczna: <b>dekremet</b> amplitudy). Przeciwciała: anty-AChR (85%), anty-MuSK, anty-LRP4 (w tzw. miastenii podwójnie seronegatywnej). TK klatki (grasica).</p>
-                        </div>
-                        <div class="grid-block block-leki">
-                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
-                            <p>Inhibitory acetylocholinoesterazy (<b>Pirydostygmina</b>). W przełomie: Plazmafereza lub IVIG. Tymektomia u młodych z uogólnioną postacią.</p>
-                        </div>
+                    <h3>Miastenia (MG) a Zespół Lamberta-Eatona (LEMS)</h3>
+                    <div class="schema-box"><span class="schema-title">TABELA RÓŻNICOWA (Baza ŚUM)</span>
++--------------------------+---------------------------------+----------------------------------+
+| Cecha                    | Miastenia Gravis (MG)           | Zespół Lamberta-Eatona (LEMS)    |
++--------------------------+---------------------------------+----------------------------------+
+| Typ i Mechanizm          | Autoimmunologiczny,             | Zespół Paranowotworowy (Rak      |
+|                          | POSTSYNAPTYCZNY                 | drobnokomórkowy płuca - SCLC),   |
+|                          |                                 | PRESYNAPTYCZNY                   |
+| Przeciwciała             | anty-AChR (85%), anty-MuSK,     | anty-VGCC (kanały wapniowe)      |
+|                          | anty-LRP4                       |                                  |
+| Objawy Kliniczne         | Opadanie powiek, dwojenie.      | Osłabienie ud/miednicy. Suchość  |
+|                          | Nasilenie objawów po wysiłku.   | w ustach (dysautonomia). BRAK    |
+|                          | Odruchy: ZACHOWANE.             | odruchów kolanowych.             |
+| Reakcja na wysiłek       | Gwałtowne pogorszenie (Nużliwość| Paradoksalna POPRAWA (torowanie) |
+| Elektromiografia (EMG)   | Dekrement amplitudy (spadek)    | Inkrement amplitudy (wzrost)     |
+| Farmakoterapia głowna    | Pirydostygmina, GKS             | Amifamfrydyna (3,4-DAP)          |
++--------------------------+---------------------------------+----------------------------------+
+                    </div>
+                    <div style="padding: 12px; background: rgba(16,185,129,0.1); border-left: 3px solid var(--accent-success); margin-top: 16px;">
+                        <b>Dawkowanie w Miastenii:</b> Podstawą są inhibitory AChE: <span class="highlight-drug">Pirydostygmina</span> (Mestinon) w dawkach np. 60 mg co 4-6 godzin. W przełomie miastenicznym (niewydolność oddechowa) stosuje się plazmaferezę lub IVIG (dożylne wlewy immunoglobulin) 2g/kg m.c.
                     </div>
                 </div>
 
@@ -345,13 +353,6 @@
     </div>
 
     <script>
-        /*
-        ======================================================================
-        MIEJSCE NA DODANIE WSZYSTKICH POZOSTAŁYCH PYTAŃ Z BAZY ŚUM
-        Aby dodać kolejne pytania, po prostu skopiuj poniższy blok kodu 
-        wewnątrz nawiasów kwadratowych [] i podmień treść. 
-        ======================================================================
-        */
         const quizData = [
             {
                 id: 1,
@@ -363,7 +364,7 @@
                     "zaburzenia smaku w przednich ⅔ języka",
                     "a + c"
                 ],
-                correct: 1, // Liczone od 0, więc 1 oznacza drugą odpowiedź (B)
+                correct: 1, 
                 rationale: "W uszkodzeniu ośrodkowym (nadjądrowym) czoło ulega oszczędzeniu ze względu na obustronne korowe unerwienie jądra górnego nerwu VII. Smak również nie jest uszkodzony."
             },
             {
@@ -429,67 +430,15 @@
                     "Wystąpienie objawów udaru 2 godziny przed przybyciem do szpitala"
                 ],
                 correct: 1,
-                rationale: "Przebyty krwotok wewnątrzczaszkowy w wywiadzie jest twardym, bezwzględnym przeciwwskazaniem do zastosowania trombolizy ze względu na wysokie ryzyko ponownego, śmiertelnego krwawienia."
-            },
-            {
-                id: 7,
-                source: "t1",
-                q: "Klasyczna triada Hakima-Adamsa, charakteryzująca wodogłowie normotensyjne (NPH), obejmuje:",
-                options: [
-                    "Otępienie, zaburzenia chodu, nietrzymanie moczu",
-                    "Drżenie spoczynkowe, sztywność, bradykinezję",
-                    "Oczopląs, mowę skandowaną, drżenie zamiarowe",
-                    "Afazję, apraksję, agnozję"
-                ],
-                correct: 0,
-                rationale: "Triada Hakima składa się z: zaburzeń chodu (chód magnetyczny/apraktyczny), nietrzymania moczu oraz postępującego otępienia podkorowego."
-            },
-            {
-                id: 8,
-                source: "t2",
-                q: "W zespole Browna-Sequarda (połowiczym uszkodzeniu rdzenia kręgowego) po stronie uszkodzenia obserwujemy:",
-                options: [
-                    "Zniesienie czucia bólu i temperatury oraz niedowład wiotki",
-                    "Niedowład piramidowy (spastyczny) oraz zniesienie czucia głębokiego",
-                    "Zniesienie czucia dotyku oraz czucia bólu",
-                    "Brak zaburzeń ruchowych, jedynie izolowane zaburzenia czucia"
-                ],
-                correct: 1,
-                rationale: "Drogi korowo-rdzeniowe (ruch) oraz sznury tylne (czucie głębokie) krzyżują się wyżej (w rdzeniu przedłużonym), dlatego uszkodzenie rdzenia daje objawy tożstronne. Droga rdzeniowo-wzgórzowa (ból i temperatura) krzyżuje się od razu w rdzeniu, dając objawy przeciwstronne."
-            },
-            {
-                id: 9,
-                source: "t1",
-                q: "Lekiem zalecanym w profilaktyce przewlekłej migreny NIE jest:",
-                options: [
-                    "Propranolol",
-                    "Kwas walproinowy",
-                    "Topiramat",
-                    "Sumatryptan"
-                ],
-                correct: 3,
-                rationale: "Sumatryptan jest tryptanem używanym do PRZERYWANIA ostrego napadu migreny, a nie do jej długoterminowej profilaktyki (gdzie stosujemy m.in. beta-blokery czy leki przeciwpadaczkowe)."
-            },
-            {
-                id: 10,
-                source: "t2",
-                q: "Pacjent otwiera oczy na ból, wydaje niezrozumiałe dźwięki i reaguje zgięciowo na bodziec bólowy. Jego punktacja w skali GCS wynosi:",
-                options: [
-                    "4 punkty",
-                    "6 punktów",
-                    "7 punktów",
-                    "9 punktów"
-                ],
-                correct: 2,
-                rationale: "Oczy na ból = 2. Niezrozumiałe dźwięki = 2. Reakcja zgięciowa (nieprawidłowa) = 3. Suma: 2 + 2 + 3 = 7 punktów."
+                rationale: "Przebyty krwotok wewnątrzczaszkowy w wywiadzie jest twardym, bezwzględnym przeciwwskazaniem do zastosowania trombolizy ze względu na wysokie ryzyko ponownego krwawienia."
             }
         ];
 
         const flashcardsData = [
+            { q: "Dawkowanie Alteplazy w udarze niedokrwiennym", a: "0.9 mg/kg m.c. (maksymalnie 90 mg). 10% podawane w jednorazowym bolusie i.v., pozostałe 90% we wlewie ciągłym przez 60 minut." },
             { q: "Reguła 1 roku w otępieniach - kogo dotyczy?", a: "Otępienia z ciałami Lewy'ego (DLB). Oznacza, że otępienie wyprzedza objawy parkinsonowskie lub pojawia się do 12 m-cy po nich." },
-            { q: "Obraz 'palców Dawsona' w MR", a: "Hiperintensywne ogniska wzdłuż żył okołokomorowych prostopadłe do ciała modzelowatego, typowe dla SM." },
-            { q: "Triada objawów Zespołu Lamberta-Eatona", a: "1. Osłabienie mm. nóg 2. Suchość w ustach (zab. autonomiczne) 3. Brak odruchów kolanowych." },
-            { q: "Dlaczego inhibitory AChE są nieskuteczne w FTD?", a: "Ponieważ w Otępieniu Czołowo-Skroniowym układ cholinergiczny nie jest pierwotnie uszkodzony. Leki te mogą wręcz nasilić agresję pacjenta." }
+            { q: "Dlaczego inhibitory AChE są nieskuteczne w FTD?", a: "W Otępieniu Czołowo-Skroniowym układ cholinergiczny nie jest pierwotnie uszkodzony. Leki te (jak donepezil) mogą wręcz nasilić agresję i niepokój pacjenta." },
+            { q: "Leki I i II rzutu w stanie padaczkowym", a: "I rzut: Benzodiazepiny (Diazepam 10-20 mg i.v.). II rzut: Kwas walproinowy (40 mg/kg i.v.) lub Lewetiracetam (60 mg/kg i.v.)." }
         ];
 
         let totalAnswered = 0;
@@ -499,17 +448,15 @@
         function switchPage(pageId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-            
             document.getElementById(pageId).classList.add('active');
             event.currentTarget.classList.add('active');
 
             const titles = {
-                'notes-page': 'Zaawansowany Rejestr Jednostek Chorobowych',
+                'notes-page': 'Zaawansowany Rejestr Farmako-Kliniczny',
                 'quiz-page': 'Katedralny Moduł Testowy z Licznikiem %',
                 'flashcards-page': 'Interaktywny System Szybkiej Powtórki (Fiszki)'
             };
             document.getElementById('page-title').innerText = titles[pageId];
-
             if(pageId === 'flashcards-page') { renderCard(); }
         }
 
@@ -536,8 +483,6 @@
                 card.innerHTML = `<div class="quiz-meta">Pytanie ${idx + 1} z ${filtered.length}</div><h4>${q.q}</h4><div class="option-container">${optionsHtml}</div><div class="rationale" id="rationale-${q.id}">${q.rationale}</div>`;
                 container.appendChild(card);
             });
-            
-            // Reset stats on reload
             totalAnswered = 0;
             totalCorrect = 0;
             document.getElementById('stats-total').innerText = "0";
@@ -570,10 +515,7 @@
             document.getElementById(`rationale-${qId}`).style.display = 'block';
         }
 
-        function resetQuizStats() {
-            loadQuiz();
-        }
-
+        function resetQuizStats() { loadQuiz(); }
         function shuffleCurrentQuiz() { quizData.sort(() => Math.random() - 0.5); loadQuiz(); }
         function renderCard() {
             const card = flashcardsData[currentCardIndex];
