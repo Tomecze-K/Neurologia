@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUPER-DYDAKTYCZNA PLATFORMA NEUROLOGII: EXAM MASTER 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-sidebar: #111827;
+            --bg-card: #1f2937;
+            --accent-primary: #3b82f6;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --border-color: #374151;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+
+        /* Sidebar Styling */
+        .sidebar { width: 320px; background-color: var(--bg-sidebar); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 24px; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; padding-bottom: 16px; border-bottom: 2px solid var(--accent-primary); }
+        .sidebar-header h1 { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; color: #ffffff; }
+        .sidebar-header p { font-size: 12px; color: var(--accent-primary); margin-top: 4px; font-weight: 600; }
+        .nav-group { margin-bottom: 24px; }
+        .nav-group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; }
+        .nav-btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px; background: none; border: none; color: var(--text-muted); text-align: left; font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; transition: all 0.2s; margin-bottom: 4px; }
+        .nav-btn:hover, .nav-btn.active { background-color: rgba(59, 130, 246, 0.15); color: #ffffff; border-left: 4px solid var(--accent-primary); padding-left: 12px; }
+
+        /* Main Content Styling */
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100%; background-color: var(--bg-main); overflow-y: auto; scroll-behavior: smooth; }
+        .top-bar { background-color: var(--bg-sidebar); padding: 16px 32px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
+        .top-bar h2 { font-size: 18px; font-weight: 600; }
+        .content-container { padding: 32px; max-width: 1200px; width: 100%; margin: 0 auto; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        /* Category Headers */
+        .category-header { font-size: 22px; color: var(--accent-primary); margin: 40px 0 24px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(59, 130, 246, 0.3); display: flex; align-items: center; gap: 12px; font-weight: 700; }
+        .category-header i { font-size: 24px; }
+
+        /* Disease Profile & Knowledge Cards */
+        .clinical-box { background-color: var(--bg-card); border-left: 5px solid var(--accent-primary); padding: 24px; border-radius: 8px; margin-bottom: 32px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .clinical-box h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; color: #ffffff; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        .disease-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 12px; }
+        .grid-block { background-color: rgba(17, 24, 39, 0.5); padding: 16px; border-radius: 6px; border: 1px solid rgba(55, 65, 81, 0.5); }
+        .grid-block-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        
+        .block-objawy .grid-block-title { color: #f43f5e; }
+        .block-mechanizm .grid-block-title { color: #38bdf8; }
+        .block-diagnoza .grid-block-title { color: #fbbf24; }
+        .block-leki .grid-block-title { color: #34d399; }
+
+        .grid-block p, .grid-block li { font-size: 13.5px; line-height: 1.6; color: var(--text-main); }
+        .grid-block ul { margin-left: 18px; margin-top: 4px; }
+
+        /* Quiz & Fiszki Styles */
+        .score-banner { background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%); border: 1px solid var(--accent-primary); padding: 20px; border-radius: 10px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between; }
+        .score-stats { display: flex; gap: 32px; }
+        .stat-item { display: flex; flex-direction: column; }
+        .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+        .stat-value { font-size: 24px; font-weight: 700; color: #ffffff; }
+        .filter-section { background-color: var(--bg-sidebar); padding: 16px 24px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; }
+        .select-input { background-color: var(--bg-card); color: var(--text-main); border: 1px solid var(--border-color); padding: 10px 16px; border-radius: 6px; font-size: 14px; outline: none; }
+        .btn { background-color: var(--accent-primary); color: #ffffff; border: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.9; }
+        .quiz-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+        .quiz-card h4 { font-size: 15px; margin-bottom: 16px; color: #ffffff; line-height: 1.5; }
+        .quiz-meta { font-size: 11px; color: var(--accent-primary); font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+        .option-container { display: flex; flex-direction: column; gap: 10px; }
+        .option-row { background-color: var(--bg-sidebar); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 13.5px; display: flex; align-items: center; gap: 12px; }
+        .option-row:hover { border-color: var(--accent-primary); background-color: rgba(59, 130, 246, 0.05); }
+        .option-row.correct { border-color: var(--accent-success); background-color: rgba(16, 185, 129, 0.15); color: #ffffff; }
+        .option-row.wrong { border-color: var(--accent-danger); background-color: rgba(239, 68, 68, 0.15); color: #ffffff; }
+        .rationale { margin-top: 14px; padding: 12px 16px; background-color: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--accent-warning); border-radius: 4px; font-size: 13px; display: none; line-height: 1.5; }
+
+        .flashcard-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; margin-top: 20px; }
+        .flashcard { width: 600px; height: 340px; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .flashcard-front, .flashcard-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 16px; border: 2px solid var(--border-color); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+        .flashcard-front { background-color: var(--bg-card); color: #ffffff; }
+        .flashcard-back { background-color: #1e3a8a; color: #ffffff; transform: rotateY(180deg); }
+        .flashcard-controls { display: flex; gap: 24px; margin-top: 24px; align-items: center; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1>NEUROLOGIA 2026</h1>
+            <p>Platforma Katedralna ŚUM</p>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Baza Wiedzy</div>
+            <button class="nav-btn active" onclick="switchPage('notes-page')"><i class="fa-solid fa-book-medical"></i> Kompendium Chorób</button>
+            <button class="nav-btn" onclick="scrollToCategory('naczyniowe')"><i class="fa-solid fa-droplet" style="font-size: 12px;"></i> Udary i Naczyniowe</button>
+            <button class="nav-btn" onclick="scrollToCategory('demielinizacyjne')"><i class="fa-solid fa-ribbon" style="font-size: 12px;"></i> Demielinizacyjne</button>
+            <button class="nav-btn" onclick="scrollToCategory('otepienia')"><i class="fa-solid fa-brain" style="font-size: 12px;"></i> Otępienia i Neurozwyrod.</button>
+            <button class="nav-btn" onclick="scrollToCategory('padaczka')"><i class="fa-solid fa-bolt" style="font-size: 12px;"></i> Padaczka i Napady</button>
+            <button class="nav-btn" onclick="scrollToCategory('miesnie')"><i class="fa-solid fa-dumbbell" style="font-size: 12px;"></i> Złącza i Mięśnie</button>
+        </div>
+
+        <div class="nav-group">
+            <div class="nav-group-title">Trening i Testy</div>
+            <button class="nav-btn" onclick="switchPage('quiz-page')"><i class="fa-solid fa-graduation-cap"></i> Moduł Testowy (% OK)</button>
+            <button class="nav-btn" onclick="switchPage('flashcards-page')"><i class="fa-solid fa-clone"></i> Interaktywne Fiszki</button>
+        </div>
+        
+        <div style="margin-top: auto; padding: 12px; background: rgba(16, 185, 129, 0.1); border-radius: 6px; border: 1px solid var(--accent-success); font-size: 12px; text-align: center;">
+            <span style="color: var(--accent-success); font-weight: bold;"><i class="fa-solid fa-circle-check"></i> Próg zdawalności: 64% (32/50)</span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <h2 id="page-title">Zaawansowany Rejestr Jednostek Chorobowych</h2>
+            <div style="font-size: 13px; color: var(--text-muted);">Ustrukturyzowane notatki katedralne</div>
+        </div>
+
+        <div class="content-container">
+
+            <div id="notes-page" class="page-section active">
+                
+                <h2 id="naczyniowe" class="category-header"><i class="fa-solid fa-heart-pulse"></i> 1. Choroby Naczyniowe (Udary)</h2>
+                
+                <div class="clinical-box" style="border-left-color: #ef4444;">
+                    <h3>Udar Niedokrwienny Mózgu</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Zależne od unaczynienia: <b>MCA</b> (t. środkowa) – niedowład połowiczy, afazja, zwrot gałek w stronę uszkodzenia. <b>PCA</b> (t. tylna) – hemianopsja. <b>PICA</b> – Zespół Wallenberga (boczny opuszki: chrypka, dysfagia, naprzemienne zaburzenia czucia).</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Zatorowy (najczęściej migotanie przedsionków - AF), zakrzepowy (blaszka miażdżycowa), hemodynamiczny. Udary lakunarne wynikają z <b>lipohialinozy</b> małych tętnic przeszywających (zwykle wtórne do nadciśnienia).</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>Pilne TK bez kontrastu do wykluczenia krwotoku. <b>MR (złoty standard wczesny):</b> Hiperintensywność w sekwencji <b>DWI</b> (restrykcja dyfuzji) i hipointensywność w mapach <b>ADC</b>.</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Okno terapeutyczne: do 4,5h. Tromboliza: <b>Alteplaza</b> lub <b>Tenekteplaza (TNK - 0,25 mg/kg m.c. w bolusie)</b>. Trombektomia mechaniczna do 6h (w oknie rozszerzonym czasem do 24h). W prewencji AF: NOAC/VKA.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="demielinizacyjne" class="category-header"><i class="fa-solid fa-ribbon" style="color: #8b5cf6;"></i> 2. Choroby Demielinizacyjne</h2>
+
+                <div class="clinical-box" style="border-left-color: #8b5cf6;">
+                    <h3>Stwardnienie Rozsiane (SM)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Rzuty i remisje. Pozagałkowe zapalenie nerwu wzrokowego (ból przy ruchu gałką), niedowłady, drżenie zamiarowe, neuralgia nerwu V u młodych. Zjawisko Uhthoffa (pogorszenie przy wzroście temperatury ciała).</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Autoimmunologiczny proces niszczący osłonki mielinowe w OUN z oszczędzeniem aksonów we wczesnej fazie. Korelacja z genami HLA na chromosomie 6p21 oraz niedoborem Wit. D3.</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>Kryteria McDonalda (rozsianie w czasie i przestrzeni). MR: Plaki demielinizacyjne prostopadłe do komór (<b>palce Dawsona</b>). PMR: <b>Prążki oligoklonalne (OCB)</b> u >90%.</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Rzut: <b>Metylprednizolon</b> (Solu-Medrol) 0,5–1,0 g/d i.v. przez 3-5 dni. Leki modyfikujące przebieg (DMT): Interferony, Octan glatirameru, Natalizumab, Ocrelizumab.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clinical-box" style="border-left-color: #8b5cf6;">
+                    <h3>NMOSD (Choroba Devica / Akwaporynopatia)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Ciężkie, obustronne zapalenie nerwów wzrokowych oraz poprzeczne zapalenie rdzenia (często rozległe, tzw. LETM - obejmujące >3 segmenty). Narastanie niesprawności jest szybsze i gorsze niż w SM.</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Autoimmunologiczne zapalenie niszczące astrocyty poprzez atak na kanały wodne (akwaporynę 4) za pośrednictwem dopełniacza. Obecna wyraźna nekroza tkanek.</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>Obecność w surowicy przeciwciał <b>anty-AQP4</b>. <i>Reguła egzaminacyjna: prążki OCB w płynie mózgowo-rdzeniowym są zazwyczaj NIEOBECNE (odróżnienie od SM).</i></p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Ostry rzut: GKS (duże dawki) + szybka plazmafereza. Profilaktyka: Rytuksymab, Azatiopryna. <b>Ważne: Leki stosowane w SM (np. interferony, fingolimod) mogą ZAOSTRZAĆ NMOSD!</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="otepienia" class="category-header"><i class="fa-solid fa-brain" style="color: #fbbf24;"></i> 3. Otępienia i Choroby Neurozwyrodnieniowe</h2>
+
+                <div class="clinical-box" style="border-left-color: #fbbf24;">
+                    <h3>Otępienie z Ciałami Lewy'ego (DLB)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Fluktuacje funkcji poznawczych, <b>bardzo żywe omamy wzrokowe</b> (widzenie zwierząt, ludzi), zaburzenia snu REM oraz zespół parkinsonowski (sztywność, bradykinezja).</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Synukleinopatia - patologiczne odkładanie alfa-synukleiny tworzącej śródkomórkowe ciała Lewy'ego rozsiane w korze mózgowej.</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p><b>Reguła 1 Roku (Klucz egzaminacyjny):</b> Otępienie rozwija się przed objawami ruchowymi parkinsonizmu lub maksymalnie do 12 miesięcy po ich wystąpieniu (w PDD otępienie występuje wiele lat po Parkinsonie).</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Dobre reakcje na inhibitory AChE (Rywastygmina) na omamy. <b>Przeciwwskazane klasyczne neuroleptyki</b> (wywołują skrajną i zagrażającą życiu nadwrażliwość oraz złośliwy zespół neuroleptyczny).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clinical-box" style="border-left-color: #fbbf24;">
+                    <h3>Otępienie Czołowo-Skroniowe (FTD)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Wczesne zmiany osobowości, odhamowanie seksualne, utrata empatii, hiperoralność (żarłoczność). Pamięć na wczesnym etapie jest zachowana. Możliwa pierwotna afazja postępująca.</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Tauopatia lub patologia TDP-43 prowadzaca do atrofii przednich płatów mózgu.</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>MR/TK obrazuje wyraźny, asymetryczny zanik płatów czołowych i/lub skroniowych (objaw "ostrza noża").</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Leczenie wyłącznie objawowe - SSRI (np. Trazodon) na zaburzenia zachowania. <b>Inhibitory AChE (donepezil, rywastygmina) są nieskuteczne</b>, a często nawet nasilają pobudzenie i agresję pacjenta!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="padaczka" class="category-header"><i class="fa-solid fa-bolt" style="color: #f59e0b;"></i> 4. Padaczka i Stany Napadowe</h2>
+
+                <div class="clinical-box" style="border-left-color: #f59e0b;">
+                    <h3>Padaczka Alkohologenna (Z. Abstynencyjny)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Napady występujące klasycznie 6–48 godzin po zaprzestaniu ciągów alkoholowych. Są to <b>napady pierwotnie uogólnione toniczno-kloniczne</b> (błędem jest nazywanie ich ogniskowymi).</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Spadek hamowania GABA-ergicznego po odstawieniu alkoholu oraz nadmierna aktywność układu pobudzającego glutaminianergicznego (receptory NMDA).</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>Wywiad z pacjentem. U 30% nieleczonych chorych rozwija się <i>Delirium Tremens</i> (majaczenie drżenne). U 3% może dojść do stanu padaczkowego.</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Leczenie z wyboru: <b>Benzodiazepiny (Diazepam)</b>. Bezwzględnie dożylna podaż Tiaminy (Wit. B1) przed podaniem glukozy, aby zapobiec encefalopatii Wernickego.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 id="miesnie" class="category-header"><i class="fa-solid fa-dumbbell" style="color: #10b981;"></i> 5. Zespoły Złącza Nerwowo-Mięśniowego</h2>
+
+                <div class="clinical-box" style="border-left-color: #10b981;">
+                    <h3>Miastenia Gravis (MG)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Nużliwość mięśni, opadanie powiek (ptoza), dwojenie widzenia. Objawy <b>nasilają się po wysiłku i wieczorem</b>. Odruchy ścięgniste zachowane.</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Przeciwciała niszczące receptory acetylocholiny (AChR) na <b>błonie postsynaptycznej</b>. Silny związek z grasiczakiem (hyperplazja grasicy).</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>EMG (próba miasteniczna: <b>dekremet</b> amplitudy). Przeciwciała: anty-AChR (85%), anty-MuSK, anty-LRP4 (w tzw. miastenii podwójnie seronegatywnej). TK klatki (grasica).</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Inhibitory acetylocholinoesterazy (<b>Pirydostygmina</b>). W przełomie: Plazmafereza lub IVIG. Tymektomia u młodych z uogólnioną postacią.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clinical-box" style="border-left-color: #10b981;">
+                    <h3>Zespół Lamberta-Eatona (LEMS)</h3>
+                    <div class="disease-grid">
+                        <div class="grid-block block-objawy">
+                            <div class="grid-block-title"><i class="fa-solid fa-triangle-exclamation"></i> Objawy</div>
+                            <p>Osłabienie mm. kończyn dolnych, suchość w ustach. <b>Zniesienie odruchów kolanowych</b>. Siła mięśniowa może paradoksalnie ZWIĘKSZAĆ się po krótkim wysiłku (torowanie).</p>
+                        </div>
+                        <div class="grid-block block-mechanizm">
+                            <div class="grid-block-title"><i class="fa-solid fa-gear"></i> Mechanizm</div>
+                            <p>Zespół paranowotworowy. Przeciwciała p/ko napięciowo-zależnym kanałom wapniowym (VGCC) w części <b>presynaptycznej</b> (zaburzony wyrzut acetylocholiny).</p>
+                        </div>
+                        <div class="grid-block block-diagnoza">
+                            <div class="grid-block-title"><i class="fa-solid fa-microscope"></i> Diagnoza / MR</div>
+                            <p>Konieczne poszukiwanie <b>raka drobnokomórkowego płuca (SCLC)</b>! EMG: inkrement amplitudy po szybkim bodźcowaniu tężcowym.</p>
+                        </div>
+                        <div class="grid-block block-leki">
+                            <div class="grid-block-title"><i class="fa-solid fa-capsules"></i> Leki</div>
+                            <p>Leczenie guza pierwotnego. Objawowo: Amifamfrydyna (3,4-DAP). Inhibitory AChE (jak w miastenii) są tu niemal nieskuteczne.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="quiz-page" class="page-section">
+                
+                <div class="score-banner">
+                    <div class="score-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Udzielone odpowiedzi</span>
+                            <span class="stat-value" id="stats-total">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Prawidłowe</span>
+                            <span class="stat-value" id="stats-correct" style="color: var(--accent-success);">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Twój Wynik Procentowy</span>
+                            <span class="stat-value" id="stats-percent" style="color: var(--accent-warning);">0%</span>
+                        </div>
+                    </div>
+                    <button class="btn" style="background-color: var(--accent-danger);" onclick="resetQuizStats()"><i class="fa-solid fa-arrow-rotate-left"></i> Resetuj Wynik</button>
+                </div>
+
+                <div class="filter-section">
+                    <div>
+                        <label style="font-size: 13px; color: var(--text-muted); display: block; margin-bottom: 6px; font-weight: 600;">Wybierz zakres pytań:</label>
+                        <select id="db-selector" class="select-input" onchange="loadQuiz()">
+                            <option value="all">Wszystkie bazy egzaminacyjne (Mix)</option>
+                            <option value="t1">2025/2026 Cykl A - Termin I</option>
+                            <option value="t2">2025/2026 Cykl A - Termin II</option>
+                        </select>
+                    </div>
+                    <button class="btn" onclick="shuffleCurrentQuiz()"><i class="fa-solid fa-shuffle"></i> Losuj kolejność pytań</button>
+                </div>
+
+                <div id="quiz-container"></div>
+            </div>
+
+            <div id="flashcards-page" class="page-section">
+                <div class="flashcard-wrapper">
+                    <div class="flashcard" onclick="flipCard(this)">
+                        <div class="flashcard-inner">
+                            <div class="flashcard-front">
+                                <div style="font-size: 11px; text-transform: uppercase; color: var(--accent-primary); font-weight: bold; margin-bottom: 16px; letter-spacing: 1px;">Kliniczne Pytanie Egzaminacyjne</div>
+                                <h3 id="card-question" style="font-size: 18px; font-weight: 600; line-height: 1.5; padding: 0 10px;">Ładowanie...</h3>
+                                <div style="margin-top: auto; font-size: 12px; color: var(--text-muted);"><i class="fa-solid fa-rotate"></i> Kliknij kartę, aby zobaczyć odpowiedź</div>
+                            </div>
+                            <div class="flashcard-back">
+                                <div style="font-size: 11px; text-transform: uppercase; color: #a7f3d0; font-weight: bold; margin-bottom: 16px; letter-spacing: 1px;">Klucz i Oficjalne Stanowisko Katedry</div>
+                                <p id="card-answer" style="font-size: 15.5px; line-height: 1.6; font-weight: 500; padding: 0 10px;">Ładowanie...</p>
+                                <div style="margin-top: auto; font-size: 12px; color: rgba(255,255,255,0.6);"><i class="fa-solid fa-rotate"></i> Kliknij, aby odwrócić z powrotem</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flashcard-controls">
+                        <button class="btn" onclick="prevCard()"><i class="fa-solid fa-arrow-left"></i> Wstecz</button>
+                        <span class="counter" id="card-counter">1 / 5</span>
+                        <button class="btn" onclick="nextCard()">Dalej <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Full Real Exam Database verified with Katedra Key
+        const quizData = [
+            {
+                id: 1,
+                source: "t2",
+                q: "Ośrodkowe uszkodzenie nerwu twarzowego objawia się jako:",
+                options: [
+                    "obniżony kącik ust, wygładzony fałd nosowo-wargowy, wygładzone czoło po stronie przeciwnej do uszkodzenia",
+                    "obniżony kącik ust, wygładzony fałd nosowo-wargowy po stronie przeciwnej do uszkodzenia",
+                    "zaburzenia smaku w przednich ⅔ języka",
+                    "a + c"
+                ],
+                correct: 1,
+                rationale: "W uszkodzeniu ośrodkowym (nadjądrowym) czoło ulega oszczędzeniu ze względu na obustronne korowe unerwienie jądra górnego nerwu VII. Smak również nie jest uszkodzony."
+            },
+            {
+                id: 2,
+                source: "t1",
+                q: "Antidotum dla inhibitorów czynnika Xa (apiksaban, rywaroksaban) to:",
+                options: [
+                    "Idarucyzumab",
+                    "Witamina K",
+                    "PCC (koncentrat czynników zespołu protrombiny) lub Andexanet alfa",
+                    "Siarczan Protaminy"
+                ],
+                correct: 2,
+                rationale: "Andexanet alfa jest bezpośrednim antidotum dla anty-Xa. Idarucyzumab jest wyłącznie antidotum na dabigatran."
+            },
+            {
+                id: 3,
+                source: "t2",
+                q: "Nieprawidłowe stwierdzenie dotyczące napadów padaczkowych z odstawienia alkoholu to:",
+                options: [
+                    "zwykle występują kilka-kilkanaście godzin po odstawieniu",
+                    "najczęściej są to napady ogniskowe",
+                    "u 3% chorych mogą wystąpić stany padaczkowe",
+                    "w leczeniu podaje się tiaminę dożylnie"
+                ],
+                correct: 1,
+                rationale: "Napady alkoholowe z odstawienia są napadami pierwotnie uogólnionymi toniczno-klonicznymi."
+            },
+            {
+                id: 4,
+                source: "t1",
+                q: "Wybierz zdanie nieprawidłowe dotyczące NMOSD (neuromyelitis optica):",
+                options: [
+                    "narastanie niesprawności jest szybsze niż w SM",
+                    "wiemy, że zapalenie wiąże się z obecnością przeciwciał AQP4",
+                    "rozpoznanie wspiera wykrycie obecności prążków oligoklonalnych",
+                    "w obrazie neuropatologicznym występuje nekroza i sferoidy"
+                ],
+                correct: 2,
+                rationale: "W NMOSD prążki oligoklonalne są zazwyczaj nieobecne. Ich obecność silnie wspiera diagnozę SM, a nie NMOSD."
+            }
+        ];
+
+        const flashcardsData = [
+            { q: "Reguła 1 roku w otępieniach - kogo dotyczy?", a: "Otępienia z ciałami Lewy'ego (DLB). Oznacza, że otępienie wyprzedza objawy parkinsonowskie lub pojawia się do 12 m-cy po nich." },
+            { q: "Obraz 'palców Dawsona' w MR", a: "Hiperintensywne ogniska wzdłuż żył okołokomorowych prostopadłe do ciała modzelowatego, typowe dla SM." },
+            { q: "Triada objawów Zespołu Lamberta-Eatona", a: "1. Osłabienie mm. nóg 2. Suchość w ustach (zab. autonomiczne) 3. Brak odruchów kolanowych." },
+            { q: "Dlaczego inhibitory AChE są nieskuteczne w FTD?", a: "Ponieważ w Otępieniu Czołowo-Skroniowym układ cholinergiczny nie jest pierwotnie uszkodzony. Leki te mogą wręcz nasilić agresję pacjenta." }
+        ];
+
+        let totalAnswered = 0;
+        let totalCorrect = 0;
+        let currentCardIndex = 0;
+
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            event.currentTarget.classList.add('active');
+
+            const titles = {
+                'notes-page': 'Zaawansowany Rejestr Jednostek Chorobowych',
+                'quiz-page': 'Katedralny Moduł Testowy z Licznikiem %',
+                'flashcards-page': 'Interaktywny System Szybkiej Powtórki (Fiszki)'
+            };
+            document.getElementById('page-title').innerText = titles[pageId];
+
+            if(pageId === 'flashcards-page') { renderCard(); }
+        }
+
+        function scrollToCategory(id) {
+            switchPage('notes-page');
+            document.querySelectorAll('.nav-btn')[0].classList.remove('active');
+            event.currentTarget.classList.add('active');
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function loadQuiz() {
+            const selector = document.getElementById('db-selector').value;
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = "";
+            const filtered = quizData.filter(q => selector === 'all' || q.source === selector);
+
+            filtered.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'quiz-card';
+                let optionsHtml = "";
+                q.options.forEach((opt, optIdx) => {
+                    optionsHtml += `<div class="option-row" data-quiz-id="${q.id}" data-opt-idx="${optIdx}" onclick="checkAnswer(this, ${optIdx === q.correct}, ${q.id})"><span style="font-weight: bold; color: var(--accent-primary);">${String.fromCharCode(65 + optIdx)}.</span> ${opt}</div>`;
+                });
+                card.innerHTML = `<div class="quiz-meta">Pytanie ${idx + 1}</div><h4>${q.q}</h4><div class="option-container">${optionsHtml}</div><div class="rationale" id="rationale-${q.id}">${q.rationale}</div>`;
+                container.appendChild(card);
+            });
+        }
+
+        function checkAnswer(element, isCorrect, qId) {
+            const parent = element.parentElement;
+            if (parent.classList.contains('answered')) return;
+            parent.classList.add('answered');
+
+            parent.querySelectorAll('.option-row').forEach(row => {
+                row.style.pointerEvents = 'none';
+                const currentOptIdx = parseInt(row.getAttribute('data-opt-idx'));
+                const targetedQuestion = quizData.find(item => item.id === qId);
+                if (currentOptIdx === targetedQuestion.correct) { row.classList.add('correct'); }
+            });
+
+            totalAnswered++;
+            if(isCorrect) { totalCorrect++; element.classList.add('correct'); } else { element.classList.add('wrong'); }
+
+            document.getElementById('stats-total').innerText = totalAnswered;
+            document.getElementById('stats-correct').innerText = totalCorrect;
+            const percentage = Math.round((totalCorrect / totalAnswered) * 100);
+            const percentLabel = document.getElementById('stats-percent');
+            percentLabel.innerText = percentage + "%";
+            percentLabel.style.color = percentage >= 64 ? 'var(--accent-success)' : 'var(--accent-danger)';
+            document.getElementById(`rationale-${qId}`).style.display = 'block';
+        }
+
+        function resetQuizStats() {
+            totalAnswered = 0; totalCorrect = 0;
+            document.getElementById('stats-total').innerText = "0";
+            document.getElementById('stats-correct').innerText = "0";
+            document.getElementById('stats-percent').innerText = "0%";
+            document.getElementById('stats-percent').style.color = 'var(--accent-warning)';
+            loadQuiz();
+        }
+
+        function shuffleCurrentQuiz() { quizData.sort(() => Math.random() - 0.5); loadQuiz(); }
+        function renderCard() {
+            const card = flashcardsData[currentCardIndex];
+            document.getElementById('card-question').innerText = card.q;
+            document.getElementById('card-answer').innerHTML = card.a;
+            document.getElementById('card-counter').innerText = `${currentCardIndex + 1} / ${flashcardsData.length}`;
+            document.querySelector('.flashcard').classList.remove('flipped');
+        }
+        function flipCard(el) { el.classList.toggle('flipped'); }
+        function nextCard() { if(currentCardIndex < flashcardsData.length - 1) { currentCardIndex++; renderCard(); } }
+        function prevCard() { if(currentCardIndex > 0) { currentCardIndex--; renderCard(); } }
+
+        window.onload = function() { loadQuiz(); };
+    </script>
+</body>
+</html>
